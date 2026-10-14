@@ -177,6 +177,8 @@
     try {
       await installPrompt.prompt();
       await installPrompt.userChoice;
+    } catch {
+      showError("Your browser couldn't open installation. Use its app-install menu, or check Help for instructions.");
     } finally {
       installPrompt = null;
       install.hidden = true;

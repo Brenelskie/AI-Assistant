@@ -5,6 +5,7 @@ from django.core.exceptions import RequestDataTooBig
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render
+from django.views.decorators.http import require_safe
 
 from .services import GeminiServiceError, generate_answer
 
@@ -38,6 +39,38 @@ def csrf_failure(request, reason=""):
 
 def home(request):
     return render(request, "assistant/index.html")
+
+
+@require_safe
+def manifest(request):
+    return JsonResponse({
+        "id": "/",
+        "name": "AI Assistant",
+        "short_name": "AI Assistant",
+        "description": "A simple classroom assistant powered by Gemini.",
+        "start_url": "/",
+        "scope": "/",
+        "display": "standalone",
+        "background_color": "#f3f4f5",
+        "theme_color": "#17212b",
+        "lang": "en",
+        "icons": [
+            {"src": f"/static/assistant/img/icon-{size}.png", "sizes": f"{size}x{size}",
+             "type": "image/png", "purpose": "any"}
+            for size in (192, 512)
+        ],
+    }, content_type="application/manifest+json")
+
+
+@require_safe
+def serviceworker(request):
+    from django.http import HttpResponse
+
+    source = settings.BASE_DIR / "static/assistant/js/serviceworker.js"
+    response = HttpResponse(source.read_text(encoding="utf-8"), content_type="application/javascript")
+    response["Cache-Control"] = "no-cache"
+    response["Service-Worker-Allowed"] = "/"
+    return response
 
 
 def csrf_token(request):
