@@ -61,7 +61,7 @@ def ask(request):
 
     try:
         payload = json.loads(body.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError, RecursionError):
+    except (ValueError, RecursionError):
         return _api_error("invalid_json", "The question could not be read. Send valid JSON text.", 400)
 
     prompt = payload.get("prompt") if isinstance(payload, dict) else None
