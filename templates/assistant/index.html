@@ -1,0 +1,105 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17212b">
+  <meta name="description" content="A simple classroom AI assistant. Ask a question and learn something new.">
+  <title>AI Assistant — Your study companion</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="{% static 'assistant/img/icon.svg' %}">
+  <link rel="apple-touch-icon" href="{% static 'assistant/img/icon-192.png' %}">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assistant/css/app.css' %}">
+  <script src="{% static 'assistant/js/app.js' %}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#prompt">Skip to question box</a>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="/" aria-label="AI Assistant home">
+        <span class="brand-mark" aria-hidden="true">A<span>i</span></span>
+        <span>AI ASSISTANT<small>THE STUDY DESK</small></span>
+      </a>
+      <nav class="header-actions" aria-label="Application">
+        <button class="btn install-button" id="install-button" type="button" hidden>Install app</button>
+        <button class="help-button" id="help-button" type="button" aria-label="Help and installation instructions">?</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="intro">
+        <p class="eyebrow">A LITTLE CURIOSITY GOES A LONG WAY</p>
+        <h1>What would you like to learn?</h1>
+        <p class="intro-copy">Ask a question. Explore an idea. Make a tricky topic a little clearer.</p>
+      </div>
+
+      <p class="offline-notice" id="offline-notice" role="status" hidden>
+        You may be offline. You can write a question here, but an AI answer needs an internet connection.
+      </p>
+
+      <section class="conversation" aria-labelledby="conversation-title">
+        <div class="section-label">
+          <h2 id="conversation-title">YOUR CONVERSATION</h2>
+          <span class="session-label">THIS VISIT ONLY</span>
+        </div>
+        <div class="welcome" id="welcome">
+          <div class="assistant-badge" aria-hidden="true">AI</div>
+          <div>
+            <h3>Hello, curious mind.</h3>
+            <p>I can explain a concept, help you brainstorm, or break an idea into simple steps. What shall we start with?</p>
+          </div>
+        </div>
+        <ol id="exchanges" class="exchanges" aria-label="Questions and answers"></ol>
+        <div class="pending-indicator" id="pending-indicator" hidden aria-hidden="true">
+          <span class="thinking-dots"><i></i><i></i><i></i></span>
+          Thinking about your question…
+        </div>
+        <p class="request-status visually-hidden" id="request-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="composer" aria-labelledby="composer-title">
+        <div class="starter-prompts" aria-label="Example questions">
+          <button class="starter" type="button" data-prompt="Explain how the internet works in simple words.">Explain a concept <span aria-hidden="true">↗</span></button>
+          <button class="starter" type="button" data-prompt="Suggest five practical ways to build better study habits.">Find study tips <span aria-hidden="true">↗</span></button>
+          <button class="starter" type="button" data-prompt="Give me three beginner-friendly ideas for a small Django project.">Brainstorm an idea <span aria-hidden="true">↗</span></button>
+        </div>
+        <form id="prompt-form">
+          <div class="prompt-heading">
+            <label id="composer-title" for="prompt">Your question</label>
+            <span id="character-count">0 / 4,000</span>
+          </div>
+          <textarea id="prompt" name="prompt" rows="3" maxlength="4000" placeholder="For example, why does the moon change shape?" required aria-describedby="prompt-hint character-count"></textarea>
+          <p class="error-notice" id="error-notice" role="alert" hidden></p>
+          <div class="composer-actions">
+            <p id="prompt-hint">Enter for a new line. <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to send.</p>
+            <div class="form-buttons">
+              <button class="btn clear-button" id="clear-button" type="button">Clear</button>
+              <button class="btn send-button" id="send-button" type="submit">Send question <span aria-hidden="true">↑</span></button>
+            </div>
+          </div>
+        </form>
+      </section>
+      <p class="conversation-note">Each question starts fresh. Refreshing this page clears the conversation.</p>
+    </main>
+
+    <footer class="app-footer">
+      <span class="connection-status" id="connection-status"><i aria-hidden="true"></i> Connection available</span>
+      <span>AI can make mistakes. Check important information.</span>
+    </footer>
+  </div>
+
+  <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+    <div class="dialog-heading"><p class="eyebrow">GOOD TO KNOW</p><button class="help-button" id="close-help" type="button" aria-label="Close help">×</button></div>
+    <h2 id="help-title">Your assistant, explained.</h2>
+    <p>Write a question and choose <strong>Send question</strong>. The answer comes from Google's Gemini AI. Each question is sent independently, without your earlier messages.</p>
+    <p>Your questions and answers stay only on this page. Refresh or choose <strong>Clear</strong> to remove them. Don't send passwords, private documents, or other sensitive information. Questions are sent to Google for processing.</p>
+    <h3>Install it like an app</h3>
+    <p>If your browser offers installation, use <strong>Install app</strong> here or the install icon in the address bar. In Edge, look under <strong>… → Apps</strong>; in Chrome, look under <strong>⋮ → Cast, save, and share</strong>. On iPhone, use Safari's <strong>Share → Add to Home Screen</strong>.</p>
+    <h3>When you're offline</h3>
+    <p>After an online visit, this interface can open without internet. You can draft a question, but generating an answer still needs a connection. Failed questions are not queued or sent automatically.</p>
+    <button class="btn send-button dialog-done" id="help-done" type="button">Got it</button>
+  </dialog>
+</body>
+</html>
