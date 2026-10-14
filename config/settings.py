@@ -31,6 +31,7 @@ INSTALLED_APPS = ["django.contrib.staticfiles", "assistant"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "assistant.middleware.ApiRequestBoundaryMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
